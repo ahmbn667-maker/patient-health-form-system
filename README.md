@@ -63,7 +63,7 @@ docker compose up --build -d
 بعد التشغيل:
 
 ```text
-Frontend: http://localhost:5173
+Frontend: http://localhost:3000
 Backend API: http://localhost:8080/api
 PostgreSQL: localhost:5432
 ```
@@ -112,7 +112,7 @@ npm run dev
 الواجهة تعمل على:
 
 ```text
-http://localhost:5173
+http://localhost:3000
 ```
 
 ## بيانات تسجيل الدخول (مشرف / دكتور)
@@ -181,7 +181,7 @@ ADMIN_USERNAME=admin@example.com
 ADMIN_PASSWORD=12345678
 DOCTOR_USERNAME=doctor@example.com
 DOCTOR_PASSWORD=12345678
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=http://localhost:3000
 ```
 
 ### Frontend
