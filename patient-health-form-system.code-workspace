@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "name": "Patient Health Form System",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "editor.formatOnSave": true,
+    "files.encoding": "utf8"
+  }
+}
