@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface FormChangeArchiveRepository extends JpaRepository<FormChangeArchive, Long> {
     List<FormChangeArchive> findByFormIdOrderByChangedAtDesc(Long formId);
+
+    void deleteByFormId(Long formId);
 }
