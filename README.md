@@ -60,7 +60,7 @@
 - Vercel
 - Railway
 ---
-![System Architecture](./assets/architecture.png)
+![System Architecture](./assets/arch.png)
 ## هيكل المشروع
 
 ```text
