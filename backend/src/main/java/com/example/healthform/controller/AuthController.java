@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -25,8 +26,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String email = body.get("email");
-        String password = body.get("password");
+        String email = normalizeEmail(body.get("email"));
+        String password = body.getOrDefault("password", "");
 
         try {
             Authentication auth = authenticationManager.authenticate(
@@ -49,5 +50,9 @@ public class AuthController {
         } catch (AuthenticationException ex) {
             return ResponseEntity.status(401).body(Map.of("message", "Invalid email or password"));
         }
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
     }
 }

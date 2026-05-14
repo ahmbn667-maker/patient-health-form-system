@@ -52,5 +52,7 @@ export interface FormChangeArchive {
   newRequiredMedicine?: string;
   previousAdminNotes?: string;
   newAdminNotes?: string;
+  previousValues?: string;
+  newValues?: string;
   changedAt: string;
 }

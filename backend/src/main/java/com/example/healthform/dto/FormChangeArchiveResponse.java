@@ -18,6 +18,8 @@ public class FormChangeArchiveResponse {
     private String newRequiredMedicine;
     private String previousAdminNotes;
     private String newAdminNotes;
+    private String previousValues;
+    private String newValues;
     private LocalDateTime changedAt;
 
     public static FormChangeArchiveResponse fromEntity(FormChangeArchive archive) {
@@ -34,6 +36,8 @@ public class FormChangeArchiveResponse {
         response.setNewRequiredMedicine(archive.getNewRequiredMedicine());
         response.setPreviousAdminNotes(archive.getPreviousAdminNotes());
         response.setNewAdminNotes(archive.getNewAdminNotes());
+        response.setPreviousValues(archive.getPreviousValues());
+        response.setNewValues(archive.getNewValues());
         response.setChangedAt(archive.getChangedAt());
         return response;
     }
@@ -86,6 +90,14 @@ public class FormChangeArchiveResponse {
         return newAdminNotes;
     }
 
+    public String getPreviousValues() {
+        return previousValues;
+    }
+
+    public String getNewValues() {
+        return newValues;
+    }
+
     public LocalDateTime getChangedAt() {
         return changedAt;
     }
@@ -136,6 +148,14 @@ public class FormChangeArchiveResponse {
 
     public void setNewAdminNotes(String newAdminNotes) {
         this.newAdminNotes = newAdminNotes;
+    }
+
+    public void setPreviousValues(String previousValues) {
+        this.previousValues = previousValues;
+    }
+
+    public void setNewValues(String newValues) {
+        this.newValues = newValues;
     }
 
     public void setChangedAt(LocalDateTime changedAt) {

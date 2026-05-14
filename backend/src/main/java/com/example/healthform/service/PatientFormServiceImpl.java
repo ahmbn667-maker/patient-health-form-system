@@ -6,6 +6,8 @@ import com.example.healthform.entity.FormStatus;
 import com.example.healthform.entity.PatientForm;
 import com.example.healthform.repository.FormChangeArchiveRepository;
 import com.example.healthform.repository.PatientFormRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -21,10 +25,16 @@ public class PatientFormServiceImpl implements PatientFormService {
 
     private final PatientFormRepository repository;
     private final FormChangeArchiveRepository archiveRepository;
+    private final ObjectMapper objectMapper;
 
-    public PatientFormServiceImpl(PatientFormRepository repository, FormChangeArchiveRepository archiveRepository) {
+    public PatientFormServiceImpl(
+            PatientFormRepository repository,
+            FormChangeArchiveRepository archiveRepository,
+            ObjectMapper objectMapper
+    ) {
         this.repository = repository;
         this.archiveRepository = archiveRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -118,7 +128,7 @@ public class PatientFormServiceImpl implements PatientFormService {
 
         PatientForm saved = repository.save(form);
 
-        List<String> changedFields = detectChangedFields(
+        ChangeSet changeSet = detectChangedFields(
                 previousFirstName, previousLastName, previousDateOfBirth, previousPhone, previousEmail, previousAddress, previousStreet,
                 previousHouseNumber, previousPostalCode, previousCity, previousInsuranceProvider, previousInsuranceNumber,
                 previousRequestType, previousPriority, previousNationalId, previousRequestNotes, previousSymptoms,
@@ -126,11 +136,11 @@ public class PatientFormServiceImpl implements PatientFormService {
                 previousRequiredMedicine, previousAdminNotes, saved
         );
 
-        if (!changedFields.isEmpty()) {
+        if (!changeSet.changedFields().isEmpty()) {
             FormChangeArchive archive = new FormChangeArchive();
             archive.setForm(saved);
             archive.setChangedBy(resolveCurrentUser());
-            archive.setChangeType("ADMIN_UPDATE:" + String.join(",", changedFields));
+            archive.setChangeType("ADMIN_UPDATE:" + String.join(",", changeSet.changedFields()));
             archive.setPreviousStatus(previousStatus);
             archive.setNewStatus(saved.getStatus());
             archive.setPreviousDiagnosis(previousDiagnosis);
@@ -139,6 +149,8 @@ public class PatientFormServiceImpl implements PatientFormService {
             archive.setNewRequiredMedicine(saved.getRequiredMedicine());
             archive.setPreviousAdminNotes(previousAdminNotes);
             archive.setNewAdminNotes(saved.getAdminNotes());
+            archive.setPreviousValues(toJson(changeSet.previousValues()));
+            archive.setNewValues(toJson(changeSet.newValues()));
             archiveRepository.save(archive);
         }
 
@@ -152,7 +164,7 @@ public class PatientFormServiceImpl implements PatientFormService {
         repository.delete(form);
     }
 
-    private List<String> detectChangedFields(
+    private ChangeSet detectChangedFields(
             String previousFirstName,
             String previousLastName,
             LocalDate previousDateOfBirth,
@@ -180,39 +192,61 @@ public class PatientFormServiceImpl implements PatientFormService {
             PatientForm saved
     ) {
         List<String> changedFields = new ArrayList<>();
+        Map<String, String> previousValues = new LinkedHashMap<>();
+        Map<String, String> newValues = new LinkedHashMap<>();
 
-        addChangedField(changedFields, "firstName", previousFirstName, saved.getFirstName());
-        addChangedField(changedFields, "lastName", previousLastName, saved.getLastName());
-        if (!Objects.equals(previousDateOfBirth, saved.getDateOfBirth())) changedFields.add("dateOfBirth");
-        addChangedField(changedFields, "phone", previousPhone, saved.getPhone());
-        addChangedField(changedFields, "email", previousEmail, saved.getEmail());
-        addChangedField(changedFields, "address", previousAddress, saved.getAddress());
-        addChangedField(changedFields, "street", previousStreet, saved.getStreet());
-        addChangedField(changedFields, "houseNumber", previousHouseNumber, saved.getHouseNumber());
-        addChangedField(changedFields, "postalCode", previousPostalCode, saved.getPostalCode());
-        addChangedField(changedFields, "city", previousCity, saved.getCity());
-        addChangedField(changedFields, "insuranceProvider", previousInsuranceProvider, saved.getInsuranceProvider());
-        addChangedField(changedFields, "insuranceNumber", previousInsuranceNumber, saved.getInsuranceNumber());
-        addChangedField(changedFields, "requestType", previousRequestType, saved.getRequestType());
-        addChangedField(changedFields, "priority", previousPriority, saved.getPriority());
-        addChangedField(changedFields, "nationalId", previousNationalId, saved.getNationalId());
-        addChangedField(changedFields, "requestNotes", previousRequestNotes, saved.getRequestNotes());
-        addChangedField(changedFields, "symptoms", previousSymptoms, saved.getSymptoms());
-        addChangedField(changedFields, "allergies", previousAllergies, saved.getAllergies());
-        addChangedField(changedFields, "medications", previousMedications, saved.getMedications());
-        addChangedField(changedFields, "conditionDescription", previousConditionDescription, saved.getConditionDescription());
+        addChangedField(changedFields, previousValues, newValues, "firstName", previousFirstName, saved.getFirstName());
+        addChangedField(changedFields, previousValues, newValues, "lastName", previousLastName, saved.getLastName());
+        addChangedField(changedFields, previousValues, newValues, "dateOfBirth", previousDateOfBirth, saved.getDateOfBirth());
+        addChangedField(changedFields, previousValues, newValues, "phone", previousPhone, saved.getPhone());
+        addChangedField(changedFields, previousValues, newValues, "email", previousEmail, saved.getEmail());
+        addChangedField(changedFields, previousValues, newValues, "address", previousAddress, saved.getAddress());
+        addChangedField(changedFields, previousValues, newValues, "street", previousStreet, saved.getStreet());
+        addChangedField(changedFields, previousValues, newValues, "houseNumber", previousHouseNumber, saved.getHouseNumber());
+        addChangedField(changedFields, previousValues, newValues, "postalCode", previousPostalCode, saved.getPostalCode());
+        addChangedField(changedFields, previousValues, newValues, "city", previousCity, saved.getCity());
+        addChangedField(changedFields, previousValues, newValues, "insuranceProvider", previousInsuranceProvider, saved.getInsuranceProvider());
+        addChangedField(changedFields, previousValues, newValues, "insuranceNumber", previousInsuranceNumber, saved.getInsuranceNumber());
+        addChangedField(changedFields, previousValues, newValues, "requestType", previousRequestType, saved.getRequestType());
+        addChangedField(changedFields, previousValues, newValues, "priority", previousPriority, saved.getPriority());
+        addChangedField(changedFields, previousValues, newValues, "nationalId", previousNationalId, saved.getNationalId());
+        addChangedField(changedFields, previousValues, newValues, "requestNotes", previousRequestNotes, saved.getRequestNotes());
+        addChangedField(changedFields, previousValues, newValues, "symptoms", previousSymptoms, saved.getSymptoms());
+        addChangedField(changedFields, previousValues, newValues, "allergies", previousAllergies, saved.getAllergies());
+        addChangedField(changedFields, previousValues, newValues, "medications", previousMedications, saved.getMedications());
+        addChangedField(changedFields, previousValues, newValues, "conditionDescription", previousConditionDescription, saved.getConditionDescription());
+        addChangedField(changedFields, previousValues, newValues, "status", previousStatus, saved.getStatus());
+        addChangedField(changedFields, previousValues, newValues, "diagnosis", previousDiagnosis, saved.getDiagnosis());
+        addChangedField(changedFields, previousValues, newValues, "requiredMedicine", previousRequiredMedicine, saved.getRequiredMedicine());
+        addChangedField(changedFields, previousValues, newValues, "adminNotes", previousAdminNotes, saved.getAdminNotes());
 
-        if (!Objects.equals(previousStatus, saved.getStatus())) changedFields.add("status");
-        addChangedField(changedFields, "diagnosis", previousDiagnosis, saved.getDiagnosis());
-        addChangedField(changedFields, "requiredMedicine", previousRequiredMedicine, saved.getRequiredMedicine());
-        addChangedField(changedFields, "adminNotes", previousAdminNotes, saved.getAdminNotes());
-
-        return changedFields;
+        return new ChangeSet(changedFields, previousValues, newValues);
     }
 
-    private void addChangedField(List<String> changedFields, String key, String oldValue, String newValue) {
+    private void addChangedField(
+            List<String> changedFields,
+            Map<String, String> previousValues,
+            Map<String, String> newValues,
+            String key,
+            Object oldValue,
+            Object newValue
+    ) {
         if (!Objects.equals(oldValue, newValue)) {
             changedFields.add(key);
+            previousValues.put(key, valueToString(oldValue));
+            newValues.put(key, valueToString(newValue));
+        }
+    }
+
+    private String valueToString(Object value) {
+        return value == null ? "" : String.valueOf(value);
+    }
+
+    private String toJson(Map<String, String> values) {
+        try {
+            return objectMapper.writeValueAsString(values);
+        } catch (JsonProcessingException ex) {
+            return "{}";
         }
     }
 
@@ -222,5 +256,12 @@ public class PatientFormServiceImpl implements PatientFormService {
             return "unknown-user";
         }
         return authentication.getName();
+    }
+
+    private record ChangeSet(
+            List<String> changedFields,
+            Map<String, String> previousValues,
+            Map<String, String> newValues
+    ) {
     }
 }

@@ -49,6 +49,8 @@ const reportText = {
     changedAt: "تاريخ التحديث",
     changedBy: "تم التحديث بواسطة",
     changedFields: "الحقول المحدثة",
+    previousValue: "قبل",
+    newValue: "بعد",
     noHistory: "لا يوجد سجل تحديثات حتى الآن",
     noDiagnosis: "لا يوجد تشخيص مسجل",
     noMedication: "لا توجد أدوية موصى بها",
@@ -98,6 +100,8 @@ const reportText = {
     changedAt: "Changed At",
     changedBy: "Changed By",
     changedFields: "Updated Fields",
+    previousValue: "Before",
+    newValue: "After",
     noHistory: "No change history yet",
     noDiagnosis: "No diagnosis provided",
     noMedication: "No medication prescribed",
@@ -147,6 +151,8 @@ const reportText = {
     changedAt: "Geaendert am",
     changedBy: "Geaendert von",
     changedFields: "Aktualisierte Felder",
+    previousValue: "Vorher",
+    newValue: "Nachher",
     noHistory: "Noch kein Verlauf",
     noDiagnosis: "Keine Diagnose hinterlegt",
     noMedication: "Keine Medikamente verschrieben",
@@ -190,6 +196,28 @@ function statusLabel(status: FormStatus | undefined, tr: Tr) {
   if (status === "REJECTED") return tr.rejectedStatus;
   if (status === "REVIEWING") return tr.reviewingStatus;
   return tr.newStatus;
+}
+
+function parseValueMap(value?: string) {
+  if (!value) return {} as Record<string, string>;
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return {} as Record<string, string>;
+    }
+    return Object.fromEntries(
+      Object.entries(parsed as Record<string, unknown>).map(([key, entryValue]) => [key, String(entryValue ?? "")])
+    );
+  } catch {
+    return {} as Record<string, string>;
+  }
+}
+
+function formatFieldValue(field: string, value: string | undefined, tr: Tr) {
+  if (field === "status") {
+    return statusLabel(value as FormStatus | undefined, tr);
+  }
+  return value && value.trim() ? value : "-";
 }
 
 function fieldLabel(field: string, tr: Tr) {
@@ -260,27 +288,34 @@ function buildHistoryRows(data: ReportData, lang: Language, tr: Tr) {
       <tbody>
         ${history.map((entry) => {
           const fields = parseChangedFields(entry.changeType);
-          const fieldText = fields.length
+          const previousValues = parseValueMap(entry.previousValues);
+          const newValues = parseValueMap(entry.newValues);
+          const fieldHtml = fields.length
             ? fields
                 .map((field) => {
-                  if (field === "status") {
-                    return `${fieldLabel(field, tr)}: ${statusLabel(entry.previousStatus, tr)} -> ${statusLabel(entry.newStatus, tr)}`;
-                  }
-                  return fieldLabel(field, tr);
+                  const beforeValue = previousValues[field] ?? (field === "status" ? entry.previousStatus : undefined);
+                  const afterValue = newValues[field] ?? (field === "status" ? entry.newStatus : undefined);
+                  return `
+                    <div class="change-line">
+                      <strong>${escapeHtml(fieldLabel(field, tr))}</strong>
+                      <span>${escapeHtml(tr.previousValue)}: ${escapeHtml(formatFieldValue(field, beforeValue, tr))}</span>
+                      <span>${escapeHtml(tr.newValue)}: ${escapeHtml(formatFieldValue(field, afterValue, tr))}</span>
+                    </div>
+                  `;
                 })
-                .join(", ")
+                .join("")
             : [
                 entry.previousStatus !== entry.newStatus ? `${tr.status}: ${statusLabel(entry.previousStatus, tr)} -> ${statusLabel(entry.newStatus, tr)}` : "",
                 entry.previousDiagnosis !== entry.newDiagnosis ? tr.diagnosis : "",
                 entry.previousRequiredMedicine !== entry.newRequiredMedicine ? tr.medication : "",
                 entry.previousAdminNotes !== entry.newAdminNotes ? tr.notes : ""
-              ].filter(Boolean).join(", ");
+              ].filter(Boolean).map((item) => `<div>${escapeHtml(item)}</div>`).join("");
 
           return `
             <tr>
               <td>${escapeHtml(formatDate(entry.changedAt, lang))}</td>
               <td>${escapeHtml(entry.changedBy || "-")}</td>
-              <td>${escapeHtml(fieldText || "-")}</td>
+              <td>${fieldHtml || "-"}</td>
             </tr>
           `;
         }).join("")}
@@ -413,6 +448,16 @@ function buildReportHtml(data: ReportData, lang: Language) {
         .report-table th {
           background: #f8fafc;
           color: #0f2f5f;
+        }
+        .change-line {
+          display: grid;
+          gap: 2px;
+          padding: 2px 0 6px;
+          border-bottom: 1px solid #edf2f7;
+        }
+        .change-line:last-child {
+          border-bottom: 0;
+          padding-bottom: 0;
         }
         .muted {
           color: #64748b;

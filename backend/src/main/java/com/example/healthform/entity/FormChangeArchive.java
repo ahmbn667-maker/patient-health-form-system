@@ -43,6 +43,12 @@ public class FormChangeArchive {
     @Column(columnDefinition = "TEXT")
     private String newAdminNotes;
 
+    @Column(columnDefinition = "TEXT")
+    private String previousValues;
+
+    @Column(columnDefinition = "TEXT")
+    private String newValues;
+
     private LocalDateTime changedAt;
 
     @PrePersist
@@ -100,6 +106,14 @@ public class FormChangeArchive {
         return newAdminNotes;
     }
 
+    public String getPreviousValues() {
+        return previousValues;
+    }
+
+    public String getNewValues() {
+        return newValues;
+    }
+
     public LocalDateTime getChangedAt() {
         return changedAt;
     }
@@ -150,6 +164,14 @@ public class FormChangeArchive {
 
     public void setNewAdminNotes(String newAdminNotes) {
         this.newAdminNotes = newAdminNotes;
+    }
+
+    public void setPreviousValues(String previousValues) {
+        this.previousValues = previousValues;
+    }
+
+    public void setNewValues(String newValues) {
+        this.newValues = newValues;
     }
 
     public void setChangedAt(LocalDateTime changedAt) {

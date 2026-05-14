@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Locale;
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -29,7 +31,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(AppUserRepository userRepository) {
-        return email -> userRepository.findByEmail(email)
+        return email -> userRepository.findByEmailIgnoreCase(normalizeEmail(email))
                 .map(user -> User.withUsername(user.getEmail())
                         .password(user.getPassword())
                         .roles(normalizeRole(user.getRole()))
@@ -69,5 +71,9 @@ public class SecurityConfig {
             return "USER";
         }
         return role.startsWith("ROLE_") ? role.substring("ROLE_".length()) : role;
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
     }
 }
