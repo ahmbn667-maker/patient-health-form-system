@@ -1,4 +1,4 @@
-# Clinic-Health-Form-System
+# Clinic-Health-Form-System / نظام النموذج الصحي للعيادة
 مرحباً بك في مشروع Clinic Health Form System، وهو نظام ويب متكامل يوفّر نموذجاً صحياً إلكترونياً للمرضى مع لوحة تحكم خاصة بالطبيب أو المشرف، إضافة إلى ربط كامل بين الواجهة الأمامية والواجهة الخلفية.
 فكرة المشروع
 يُعد نظام النموذج الصحي الإلكتروني تطبيق Full-Stack Web Application مخصصاً لعيادة واحدة فقط، ويهدف إلى تحويل النموذج الصحي الورقي المستخدم داخل العيادة إلى نظام رقمي حديث وآمن وسهل الاستخدام.
@@ -214,7 +214,7 @@ Frontend يرسل PUT /api/forms/{id}/admin
 ## API Endpoints
 Method	Endpoint	     Description                  jwt
 POST	/api/auth/login 	عام                تسجيل الدخول       
-POST	/api/forms	            عام                    إنشاء نموذج جديد         
+POST	/api/forms	            عام         إنشاء نموذج جديد         
 GET	/api/forms	       جلب جميع النماذج        jwt
 GET	/api/forms/{id} 	جلب نموذج محدد       jwt
 PUT	/api/forms/{id}/admin	تحديث الحالة         jwt
@@ -226,10 +226,9 @@ DELETE	/api/forms/{id}	       حذف نموذج            jwt
 
 ```env
 PORT=8080
-SPRING_DATASOURCE_URL=jdbc:postgresql://HOST:PORT/DB
-SPRING_DATASOURCE_USERNAME=USER
-SPRING_DATASOURCE_PASSWORD=PASSWORD
-SPRING_DATASOURCE_DRIVER=org.postgresql.Driver
+POSTGRES_URL=postgresql://USER:PASSWORD@HOST/DB?sslmode=require
+POSTGRES_USER=USER
+POSTGRES_PASSWORD=PASSWORD
 JWT_SECRET=your-very-strong-secret
 JWT_EXPIRATION_MS=3600000
 ADMIN_USERNAME=admin@example.com

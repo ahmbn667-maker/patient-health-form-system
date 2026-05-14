@@ -1,5 +1,6 @@
 .idea/
 .vscode/*.log
+logs/
 node_modules/
 dist/
 target/
