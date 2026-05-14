@@ -17,19 +17,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         List<String> allowedOrigins = new ArrayList<>(Arrays.asList(
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "http://127.0.0.1:5173",
-                "http://127.0.0.1:3000",
-                "http://192.168.*.*:*",
-                "http://10.*.*.*:*",
-                "http://172.16.*.*:*",
-                "http://172.17.*.*:*",
-                "http://172.18.*.*:*",
-                "http://172.19.*.*:*",
-                "http://172.2*.*.*:*",
-                "http://172.30.*.*:*",
-                "http://172.31.*.*:*"
+                "https://*.onrender.com"
         ));
 
         Arrays.stream(frontendUrl.split(","))
@@ -37,8 +25,14 @@ public class CorsConfig implements WebMvcConfigurer {
                 .filter(origin -> !origin.isEmpty())
                 .forEach(allowedOrigins::add);
 
-        registry.addMapping("/api/**")
-                .allowedOriginPatterns(allowedOrigins.toArray(String[]::new))
+        String[] allowedOriginPatterns = allowedOrigins.toArray(String[]::new);
+        addApiCorsMapping(registry, "/api", allowedOriginPatterns);
+        addApiCorsMapping(registry, "/api/**", allowedOriginPatterns);
+    }
+
+    private void addApiCorsMapping(CorsRegistry registry, String pathPattern, String[] allowedOriginPatterns) {
+        registry.addMapping(pathPattern)
+                .allowedOriginPatterns(allowedOriginPatterns)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
     }

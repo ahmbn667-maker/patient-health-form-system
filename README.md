@@ -28,8 +28,8 @@
 -  البحث والفلترة حسب الحالة الصحية.
 -  دعم تصدير وطباعة PDF.
 -  واجهة سريعة باستخدام React + Vite.
--  جاهز للنشر باستخدام Docker.
-- ☁️ قابل للنشر على Vercel وRailway.
+-  جاهز للنشر على Render.
+- ☁️ قابل للنشر على Render Web Service + Render Static Site + Render PostgreSQL.
 
 
 ## التقنيات المستخدمة
@@ -47,18 +47,16 @@
  H2 Database كخيار افتراضي للتشغيل السريع
 -
 - **HTTP Client:** Axios
- Railway أو أي بيئة تدعم Docker/Java/Node
+ Render Web Service + Render Static Site + Render PostgreSQL
 
 
 
 ## DevOps & Deployment
 
-- Docker/Java/Node
-- Railway أو أي بيئة تدعم
-- Docker Compose
-- **Deploy:** مناسب للنشر على
-- Vercel
-- Railway
+- Render PostgreSQL
+- Render Web Service for Spring Boot backend
+- Render Static Site for React + Vite frontend
+- Environment-variable based production configuration
 ---
 ![System Architecture](./assets/arch.png)
 
@@ -85,10 +83,9 @@ patient-health-form-system/
 |  |  |- pages/
 |  |  |- services/
 |  |  `- types/
-|  |- nginx/default.conf
-|  |- Dockerfile
 |  `- package.json
-|- docker-compose.yml
+|- render.yaml
+|- RENDER_DEPLOYMENT.md
 `- README.md
 ``
 
@@ -97,70 +94,10 @@ patient-health-form-system/
 - Java 17 أو أعلى
 - Maven
 - Node.js 18 أو أعلى
-- Docker Desktop
 
-## التشغيل المحلي باستخدام Docker
+## Render Deployment
 
-يشغل هذا الأمر قاعدة البيانات، الخلفية، والواجهة:
-
-```bash
-docker compose up --build -d
-```
-
-بعد التشغيل:
-
-```text
-Frontend: http://localhost:3000
-Backend API: http://localhost:8080/api
-PostgreSQL: localhost:5432
-```
-
-لإيقاف الخدمات:
-
-```bash
-docker compose down
-```
-
-ولحذف بيانات قاعدة البيانات المحلية:
-
-```bash
-docker compose down -v
-```
-
-## التشغيل المحلي بدون Docker
-
-### 1. تشغيل قاعدة البيانات
-
-```bash
-docker compose up -d postgres
-```
-
-### 2. تشغيل Backend
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-الخلفية تعمل على:
-
-```text
-http://localhost:8080
-```
-
-### 3. تشغيل Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-الواجهة تعمل على:
-
-```text
-http://localhost:3000
-```
+See `RENDER_DEPLOYMENT.md` for Render PostgreSQL, backend Web Service, and frontend Static Site configuration.
 
 ## بيانات تسجيل الدخول (مشرف / دكتور)
 
@@ -226,22 +163,22 @@ DELETE	/api/forms/{id}	       حذف نموذج            jwt
 
 ```env
 PORT=8080
-POSTGRES_URL=postgresql://USER:PASSWORD@HOST/DB?sslmode=require
-POSTGRES_USER=USER
-POSTGRES_PASSWORD=PASSWORD
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE
+DB_USERNAME=USER
+DB_PASSWORD=PASSWORD
 JWT_SECRET=your-very-strong-secret
 JWT_EXPIRATION_MS=3600000
 ADMIN_USERNAME=admin@example.com
 ADMIN_PASSWORD=12345678
 DOCTOR_USERNAME=doctor@example.com
 DOCTOR_PASSWORD=12345678
-FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=https://your-frontend.onrender.com
 ```
 
 ### Frontend
 
 ```env
-VITE_API_BASE_URL=/api
+VITE_API_URL=https://your-backend.onrender.com/api
 ```
 
 ## الاختبارات والبناء
@@ -261,21 +198,9 @@ npm install
 npm run build
 ```
 
-#Deployment# النشر على  Frontend Deployment /Vercel
-Backend Deployment /Railway /Render
-1. أنشئ قاعدة PostgreSQL في Railway.
-2. انشر خدمة Backend واضبط متغيرات البيئة الخاصة بقاعدة البيانات وJWT والمشرف.
-3. انشر خدمة Frontend واضبط `VITE_API_BASE_URL` على رابط الخلفية:
+## Deployment
 
-```env
-VITE_API_BASE_URL=https://your-backend.up.railway.app/api
-```
-
-4. اضبط `FRONTEND_URL` في الخلفية على رابط الواجهة:
-
-```env
-FRONTEND_URL=https://your-frontend.up.railway.app
-```
+Render deployment notes are in `RENDER_DEPLOYMENT.md`.
 
 #Security Notes# ملاحظات أمان
 

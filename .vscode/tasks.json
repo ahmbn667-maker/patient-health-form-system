@@ -2,15 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start Database",
-      "type": "shell",
-      "command": "docker compose up -d",
-      "problemMatcher": []
-    },
-    {
       "label": "Start Backend",
       "type": "shell",
-      "command": "mvn spring-boot:run",
+      "command": "${workspaceFolder}\\.tools\\apache-maven-3.9.9\\bin\\mvn.cmd spring-boot:run",
       "options": {
         "cwd": "${workspaceFolder}/backend"
       },
