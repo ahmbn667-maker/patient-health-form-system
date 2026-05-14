@@ -60,8 +60,10 @@
 - Vercel
 - Railway
 ---
-![](./assets/arch.png)
-## هيكل المشروع
+![System Architecture](./assets/arch.png)
+
+## Project Structure
+
 
 ```text
 patient-health-form-system/
@@ -294,3 +296,5 @@ Future Improvements | التطوير المستقبلي
 لوحة إحصائيات متقدمة.
 
 
+
+[def]: ./assets/arch.png
