@@ -241,7 +241,7 @@ FRONTEND_URL=http://localhost:3000
 ### Frontend
 
 ```env
-VITE_API_BASE_URL=http://localhost:8080/api
+VITE_API_BASE_URL=/api
 ```
 
 ## الاختبارات والبناء
