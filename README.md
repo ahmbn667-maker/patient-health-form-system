@@ -60,7 +60,7 @@
 - Vercel
 - Railway
 ---
-![System Architecture](./assets/arch.png)
+![](./assets/arch.png)
 ## هيكل المشروع
 
 ```text
@@ -294,5 +294,3 @@ Future Improvements | التطوير المستقبلي
 لوحة إحصائيات متقدمة.
 
 
-
-[def]: ./assets/arch.png
