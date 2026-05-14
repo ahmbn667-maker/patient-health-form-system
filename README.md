@@ -59,12 +59,9 @@
 - **Deploy:** مناسب للنشر على
 - Vercel
 - Railway
-
 ---
 ![System Architecture][def]
-![Architecture][def]
-
-[def]: ./assets/architecture.png
+[def]:./assets/architecture.png
 ## هيكل المشروع
 
 ```text
