@@ -146,8 +146,10 @@ public class PatientFormServiceImpl implements PatientFormService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        repository.deleteById(id);
+        PatientForm form = findById(id);
+        repository.delete(form);
     }
 
     private List<String> detectChangedFields(

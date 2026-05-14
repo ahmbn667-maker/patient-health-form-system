@@ -1,8 +1,11 @@
 package com.example.healthform.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "patient_forms")
@@ -63,6 +66,10 @@ public class PatientForm {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<FormChangeArchive> archives = new ArrayList<>();
+
     @PrePersist
     public void beforeCreate() {
         createdAt = LocalDateTime.now();
@@ -110,6 +117,7 @@ public class PatientForm {
     public String getAdminNotes() { return adminNotes; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public List<FormChangeArchive> getArchives() { return archives; }
 
     public void setId(Long id) { this.id = id; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -141,4 +149,5 @@ public class PatientForm {
     public void setAdminNotes(String adminNotes) { this.adminNotes = adminNotes; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public void setArchives(List<FormChangeArchive> archives) { this.archives = archives; }
 }

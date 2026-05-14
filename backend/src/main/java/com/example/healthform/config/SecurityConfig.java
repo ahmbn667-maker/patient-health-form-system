@@ -1,7 +1,7 @@
 package com.example.healthform.config;
 
+import com.example.healthform.repository.AppUserRepository;
 import com.example.healthform.security.JwtFilter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,9 +12,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -22,35 +22,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Value("${admin.username}")
-    private String adminUsername;
-
-    @Value("${admin.password}")
-    private String adminPassword;
-
-    @Value("${doctor.username}")
-    private String doctorUsername;
-
-    @Value("${doctor.password}")
-    private String doctorPassword;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        InMemoryUserDetailsManager mgr = new InMemoryUserDetailsManager();
-        mgr.createUser(User.withUsername(adminUsername)
-                .password(encoder.encode(adminPassword))
-                .roles("ADMIN")
-                .build());
-        mgr.createUser(User.withUsername(doctorUsername)
-                .password(encoder.encode(doctorPassword))
-                .roles("DOCTOR")
-                .build());
-        return mgr;
+    public UserDetailsService userDetailsService(AppUserRepository userRepository) {
+        return email -> userRepository.findByEmail(email)
+                .map(user -> User.withUsername(user.getEmail())
+                        .password(user.getPassword())
+                        .roles(normalizeRole(user.getRole()))
+                        .build())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 
     @Bean
@@ -68,6 +52,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/forms").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
@@ -77,5 +62,12 @@ public class SecurityConfig {
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    private String normalizeRole(String role) {
+        if (role == null || role.isBlank()) {
+            return "USER";
+        }
+        return role.startsWith("ROLE_") ? role.substring("ROLE_".length()) : role;
     }
 }
