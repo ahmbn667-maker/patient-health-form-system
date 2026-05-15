@@ -17,6 +17,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         List<String> allowedOrigins = new ArrayList<>(Arrays.asList(
+                "https://clinic-health-form-system.onrender.com",
+                "http://localhost:3000",
+                "http://localhost:5173",
                 "https://*.onrender.com"
         ));
 
