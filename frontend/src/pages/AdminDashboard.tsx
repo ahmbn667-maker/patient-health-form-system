@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, Eye, Globe, LogOut, RefreshCw, Search } from "lucide-react";
 import { AxiosError } from "axios";
 import { api } from "../services/api";
@@ -120,6 +120,24 @@ const localeByLang: Record<Language, string> = {
   de: "de-DE"
 };
 
+const editPanelText = {
+  title: {
+    ar: "شاشة تعديل الطبيب",
+    en: "Doctor Edit Form",
+    de: "Bearbeitungsformular"
+  },
+  selectedHint: {
+    ar: "يمكنك تعديل بيانات المريض وحفظ التغييرات من هنا.",
+    en: "Edit the patient details and save changes here.",
+    de: "Bearbeiten Sie hier die Patientendaten und speichern Sie die Aenderungen."
+  },
+  emptyHint: {
+    ar: "اختر مريضًا من السجل لفتح شاشة التعديل هنا تحت قائمة المرضى.",
+    en: "Open a patient record to show the edit form here under the patient list.",
+    de: "Oeffnen Sie einen Patientenfall, um das Formular hier unter der Liste anzuzeigen."
+  }
+} as const;
+
 function emptyEditable(): EditablePatient {
   return {
     firstName: "",
@@ -232,6 +250,7 @@ export default function AdminDashboard({ lang, onLanguageChange }: Props) {
   const [statusFilter, setStatusFilter] = useState<"ALL" | FormStatus>("ALL");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const editSectionRef = useRef<HTMLElement | null>(null);
   const currentRole = (localStorage.getItem("role") || "ADMIN").toUpperCase();
 
   const t = i18n;
@@ -326,6 +345,9 @@ export default function AdminDashboard({ lang, onLanguageChange }: Props) {
     setEditable(toEditablePatient(form));
     setMessage("");
     setError("");
+    window.setTimeout(() => {
+      editSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
     if (form.id) {
       loadHistory(form.id).catch(() => setHistory([]));
     }
@@ -543,6 +565,11 @@ export default function AdminDashboard({ lang, onLanguageChange }: Props) {
           </div>
         </section>
 
+        <section className="edit-panel-anchor" ref={editSectionRef}>
+          <h2>{editPanelText.title[lang]}</h2>
+          <p>{selected ? editPanelText.selectedHint[lang] : editPanelText.emptyHint[lang]}</p>
+        </section>
+
         {selected && (
           <section className="dashboard-detail-grid">
             <article className="card">
@@ -649,8 +676,12 @@ export default function AdminDashboard({ lang, onLanguageChange }: Props) {
                   <label>{t.notes[lang]}</label>
                   <textarea value={editable.adminNotes} onChange={(e) => update("adminNotes", e.target.value)} />
                 </div>
-                <button className="primary" onClick={save}>{t.save[lang]}</button>
-                <button onClick={printPdf}><Download size={16} /> {t.pdf[lang]}</button>
+                <div className="form-actions full">
+                  {message && <div className="notice form-status-message" aria-live="polite">{message}</div>}
+                  {error && <div className="error form-status-message" role="alert">{error}</div>}
+                  <button className="primary" onClick={save}>{t.save[lang]}</button>
+                  <button onClick={printPdf}><Download size={16} /> {t.pdf[lang]}</button>
+                </div>
               </div>
             </article>
 
