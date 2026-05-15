@@ -32,7 +32,7 @@ services:
       - key: DOCTOR_PASSWORD
         sync: false
       - key: FRONTEND_URL
-        value: https://patient-health-frontend.onrender.com
+        value: https://clinic-health-form-system.onrender.com
 
   - type: web
     name: patient-health-frontend
@@ -46,7 +46,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://patient-health-backend.onrender.com/api
+        value: https://clinic-health-backend.onrender.com/api
 
 databases:
   - name: patient-health-db
