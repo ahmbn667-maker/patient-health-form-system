@@ -12,6 +12,9 @@ import java.util.Locale;
 
 @Configuration
 public class DatabaseSeeder {
+    private static final String DEFAULT_ADMIN_USERNAME = "admin@example.com";
+    private static final String DEFAULT_DOCTOR_USERNAME = "doctor@example.com";
+    private static final String DEFAULT_DEMO_PASSWORD = "12345678";
 
     @Value("${admin.username:admin@example.com}")
     private String adminUsername;
@@ -28,8 +31,20 @@ public class DatabaseSeeder {
     @Bean
     CommandLineRunner initDatabase(AppUserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            seedOrRepairUser(userRepository, passwordEncoder, adminUsername, adminPassword, "ADMIN");
-            seedOrRepairUser(userRepository, passwordEncoder, doctorUsername, doctorPassword, "DOCTOR");
+            seedOrRepairUser(
+                    userRepository,
+                    passwordEncoder,
+                    defaultIfBlank(adminUsername, DEFAULT_ADMIN_USERNAME),
+                    defaultIfBlank(adminPassword, DEFAULT_DEMO_PASSWORD),
+                    "ADMIN"
+            );
+            seedOrRepairUser(
+                    userRepository,
+                    passwordEncoder,
+                    defaultIfBlank(doctorUsername, DEFAULT_DOCTOR_USERNAME),
+                    defaultIfBlank(doctorPassword, DEFAULT_DEMO_PASSWORD),
+                    "DOCTOR"
+            );
         };
     }
 
@@ -83,5 +98,9 @@ public class DatabaseSeeder {
         }
         String normalized = role.trim().toUpperCase(Locale.ROOT);
         return normalized.startsWith("ROLE_") ? normalized.substring("ROLE_".length()) : normalized;
+    }
+
+    private String defaultIfBlank(String value, String fallback) {
+        return value == null || value.isBlank() ? fallback : value;
     }
 }

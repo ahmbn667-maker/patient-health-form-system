@@ -37,9 +37,9 @@ const text = {
     de: "Ungueltige Anmeldedaten"
   },
   serverError: {
-    ar: "لا يمكن الاتصال بالخادم. تأكد من تشغيل Backend على المنفذ 8081.",
-    en: "Cannot connect to server. Make sure backend is running on port 8081.",
-    de: "Server nicht erreichbar. Pruefen Sie Backend auf Port 8081."
+    ar: "لا يمكن الاتصال بالخادم. تأكد من تشغيل Backend على المنفذ 8080.",
+    en: "Cannot connect to server. Make sure backend is running on port 8080.",
+    de: "Server nicht erreichbar. Pruefen Sie Backend auf Port 8080."
   },
   demoTitle: {
     ar: "بيانات تجريبية:",

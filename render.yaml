@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: patient-health-backend
+    name: clinic-health-backend
     runtime: docker
     rootDir: backend
     healthCheckPath: /api
@@ -24,18 +24,18 @@ services:
       - key: JWT_EXPIRATION_MS
         value: 3600000
       - key: ADMIN_USERNAME
-        sync: false
+        value: admin@example.com
       - key: ADMIN_PASSWORD
-        sync: false
+        value: 12345678
       - key: DOCTOR_USERNAME
-        sync: false
+        value: doctor@example.com
       - key: DOCTOR_PASSWORD
-        sync: false
+        value: 12345678
       - key: FRONTEND_URL
         value: https://clinic-health-form-system.onrender.com
 
   - type: web
-    name: patient-health-frontend
+    name: clinic-health-form-system
     runtime: static
     rootDir: frontend
     buildCommand: npm ci && npm run build
