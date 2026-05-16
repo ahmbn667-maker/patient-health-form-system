@@ -74,7 +74,7 @@ const symptomOptions = {
 } as const;
 
 const t = {
-  title: { ar: "نموذج صحة المريض", en: "Patient Health Form", de: "Patientenformular" },
+  title: { ar: "Ahmed Al-Saadi", en: "Ahmed Al-Saadi", de: "Ahmed Al-Saadi" },
   subtitle: {
     ar: "يرجى تعبئة جميع الحقول المطلوبة.",
     en: "Please fill in all required fields.",

@@ -18,9 +18,9 @@ DB_PASSWORD=PASSWORD
 JWT_SECRET=change-this-to-a-long-random-production-secret
 JWT_EXPIRATION_MS=3600000
 ADMIN_USERNAME=admin@example.com
-ADMIN_PASSWORD=change-this-admin-password
+ADMIN_PASSWORD=12345678
 DOCTOR_USERNAME=doctor@example.com
-DOCTOR_PASSWORD=change-this-doctor-password
+DOCTOR_PASSWORD=12345678
 FRONTEND_URL=https://your-frontend.onrender.com
 ```
 
@@ -65,9 +65,9 @@ Use the internal connection string for DATABASE_URL when the database and backen
 
 The root `render.yaml` defines:
 
-- `patient-health-db`
-- `patient-health-backend`
-- `patient-health-frontend`
+- `ahmed-al-saadi-db`
+- `ahmed-al-saadi-backend`
+- `ahmed-al-saadi`
 
 After creating the services, confirm the generated service URLs. If Render assigns a different subdomain, update only these environment variables:
 

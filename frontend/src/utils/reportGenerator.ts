@@ -8,7 +8,7 @@ export type ReportData = PatientForm & {
 const reportText = {
   ar: {
     title: "التقرير السريري",
-    product: "FormSystem - Digital Health Solutions",
+    product: "Ahmed Al-Saadi",
     date: "التاريخ",
     refId: "رقم المرجع",
     generatedAt: "وقت الإصدار",
@@ -59,7 +59,7 @@ const reportText = {
   },
   en: {
     title: "CLINICAL REPORT",
-    product: "FormSystem - Digital Health Solutions",
+    product: "Ahmed Al-Saadi",
     date: "Date",
     refId: "Reference ID",
     generatedAt: "Generated at",
@@ -110,7 +110,7 @@ const reportText = {
   },
   de: {
     title: "KLINISCHER BERICHT",
-    product: "FormSystem - Digital Health Solutions",
+    product: "Ahmed Al-Saadi",
     date: "Datum",
     refId: "Referenz-ID",
     generatedAt: "Erstellt am",

@@ -8,9 +8,9 @@ type Props = {
 
 const t = {
   welcome: {
-    ar: "مرحبًا بك في نظام إدارة العيادة",
-    en: "Welcome to Clinic Management System",
-    de: "Willkommen im Klinikverwaltungssystem"
+    ar: "Ahmed Al-Saadi",
+    en: "Ahmed Al-Saadi",
+    de: "Ahmed Al-Saadi"
   },
   intro: {
     ar: "منصة موحدة لإدخال بيانات المريض ومراجعتها سريريًا وإصدار التقارير.",

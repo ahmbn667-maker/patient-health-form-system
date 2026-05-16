@@ -11,7 +11,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "admin.username=",
+        "admin.password=",
+        "doctor.username=",
+        "doctor.password="
+})
 @AutoConfigureMockMvc
 class AuthControllerTest {
 
@@ -28,5 +33,18 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").isNotEmpty())
                 .andExpect(jsonPath("$.email").value("admin@example.com"));
+    }
+
+    @Test
+    void doctorLoginReturnsJwtToken() throws Exception {
+        String body = "{\"email\":\"doctor@example.com\",\"password\":\"12345678\"}";
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").isNotEmpty())
+                .andExpect(jsonPath("$.email").value("doctor@example.com"))
+                .andExpect(jsonPath("$.role").value("DOCTOR"));
     }
 }

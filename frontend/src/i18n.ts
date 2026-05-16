@@ -10,9 +10,9 @@ export const languageLabel: Record<Language, string> = {
 
 export const commonText = {
   appTitle: {
-    ar: "نظام إدارة العيادة",
-    en: "Clinic Management System",
-    de: "Klinikverwaltungssystem"
+    ar: "Ahmed Al-Saadi",
+    en: "Ahmed Al-Saadi",
+    de: "Ahmed Al-Saadi"
   },
   landing: {
     ar: "الصفحة الرئيسية",

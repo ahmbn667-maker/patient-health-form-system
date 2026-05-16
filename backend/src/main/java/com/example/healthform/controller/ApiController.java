@@ -12,7 +12,7 @@ public class ApiController {
     @GetMapping("/api")
     public ResponseEntity<Map<String, String>> status() {
         return ResponseEntity.ok(Map.of(
-                "message", "Patient Health Form API is running",
+                "message", "Ahmed Al-Saadi API is running",
                 "status", "OK"
         ));
     }

@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>clinic-health-form-system</artifactId>
+    <artifactId>ahmed-al-saadi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Clinic-Health-Form-System</name>
-    <description>Clinic Health Form Backend</description>
+    <name>Ahmed Al-Saadi</name>
+    <description>Ahmed Al-Saadi Backend</description>
 
     <properties>
         <java.version>17</java.version>

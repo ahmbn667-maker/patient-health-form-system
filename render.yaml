@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: clinic-health-backend
+    name: ahmed-al-saadi-backend
     runtime: docker
     rootDir: backend
     healthCheckPath: /api
@@ -9,15 +9,15 @@ services:
         value: 8080
       - key: DATABASE_URL
         fromDatabase:
-          name: patient-health-db
+          name: ahmed-al-saadi-db
           property: connectionString
       - key: DB_USERNAME
         fromDatabase:
-          name: patient-health-db
+          name: ahmed-al-saadi-db
           property: user
       - key: DB_PASSWORD
         fromDatabase:
-          name: patient-health-db
+          name: ahmed-al-saadi-db
           property: password
       - key: JWT_SECRET
         generateValue: true
@@ -32,10 +32,10 @@ services:
       - key: DOCTOR_PASSWORD
         value: 12345678
       - key: FRONTEND_URL
-        value: https://clinic-health-form-system.onrender.com
+        value: https://ahmed-al-saadi.onrender.com
 
   - type: web
-    name: clinic-health-form-system
+    name: ahmed-al-saadi
     runtime: static
     rootDir: frontend
     buildCommand: npm ci && npm run build
@@ -46,9 +46,9 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://clinic-health-backend.onrender.com/api
+        value: https://ahmed-al-saadi-backend.onrender.com/api
 
 databases:
-  - name: patient-health-db
-    databaseName: patient_forms_db
-    user: patient_forms_user
+  - name: ahmed-al-saadi-db
+    databaseName: ahmed_al_saadi_db
+    user: ahmed_al_saadi_user
