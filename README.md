@@ -1,224 +1,289 @@
-# Ahmed Al-Saadi / نظام النموذج الصحي للعيادة
-مرحباً بك في مشروع Ahmed Al-Saadi، وهو نظام ويب متكامل يوفّر نموذجاً صحياً إلكترونياً للمرضى مع لوحة تحكم خاصة بالطبيب أو المشرف، إضافة إلى ربط كامل بين الواجهة الأمامية والواجهة الخلفية.
-فكرة المشروع
-يُعد نظام النموذج الصحي الإلكتروني تطبيق Full-Stack Web Application مخصصاً لعيادة واحدة فقط، ويهدف إلى تحويل النموذج الصحي الورقي المستخدم داخل العيادة إلى نظام رقمي حديث وآمن وسهل الاستخدام.
-يستطيع المريض إدخال بياناته الصحية إلكترونياً من خلال واجهة النظام، ثم تُرسل البيانات إلى الخلفية عبر REST API ليتم حفظها داخل قاعدة البيانات بطريقة منظمة وآمنة.
-بعد تسجيل الدخول، يمكن للطبيب أو المشرف داخل العيادة استعراض النماذج المرسلة من المرضى، وفتح كل سجل للاطلاع على بيانات المريض، وتحديث الحالة الطبية، وإضافة التشخيص والملاحظات الطبية أو الإدارية.
-يساعد النظام على تنظيم بيانات المرضى، وتسريع إجراءات الاستقبال والمتابعة داخل العيادة، وتقليل الاعتماد على النماذج
+<div align="center">
 
-#  Supported Languages | اللغات المدعومة
+#  نظام النماذج الصحية للعيادة
 
-يدعم النظام تعدد اللغات (**Multi-Language Support**) مع دعم كامل لاتجاه الكتابة من اليمين إلى اليسار (**RTL**).
+نظام صحي متكامل Full-Stack  
+تم تطويره باستخدام React و Spring Boot و PostgreSQL و Docker
 
-> تم تصميم الواجهة لتكون قابلة للتوسع وإضافة أي لغة مستقبلية بسهولة باستخدام نظام ترجمة ديناميكي.
+<p align="center">
 
-## اللغات الحالية
+<img src="https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge">
+<img src="https://img.shields.io/badge/Backend-SpringBoot-green?style=for-the-badge">
+<img src="https://img.shields.io/badge/Database-PostgreSQL-blue?style=for-the-badge">
+<img src="https://img.shields.io/badge/Auth-JWT-orange?style=for-the-badge">
+<img src="https://img.shields.io/badge/Deployment-Render-black?style=for-the-badge">
 
-- 🇸🇦 العربية (Arabic)
-- 🇺🇸 الإنجليزية (English) 
-- 🇩🇪 الألمانية (German)
+</p>
 
+</div>
 
-# مميزات المشروع | Features
+---
 
--  نظام صحي رقمي لإدارة نماذج المرضى.
--  واجهة عربية احترافية تدعم RTL.
--  نظام مصادقة وحماية باستخدام JWT.
--  لوحة تحكم للأطباء والمشرفين.
--  البحث والفلترة حسب الحالة الصحية.
--  دعم تصدير وطباعة PDF.
--  واجهة سريعة باستخدام React + Vite.
--  جاهز للنشر على Render.
-- ☁️ قابل للنشر على Render Web Service + Render Static Site + Render PostgreSQL.
+#  نظرة عامة
 
+نظام Clinic Health Form System هو تطبيق صحي حديث متكامل (Full-Stack) مصمم خصيصًا لبيئة عيادة واحدة.
 
-## التقنيات المستخدمة
+يهدف النظام إلى استبدال النماذج الطبية الورقية التقليدية بسير عمل رقمي آمن، يسمح للمرضى بإرسال بياناتهم الصحية إلكترونيًا، مع تمكين الأطباء والمشرفين من إدارة سجلات المرضى من خلال لوحة تحكم احترافية.
 
-- **Frontend:** React + Vite + TypeScript
-- **UI:** - Custom CSS مخصص بواجهة عربية - RTL Layout
-- **Backend:** Spring Boot
- **Authentication:** JWT
+---
+
+#  المميزات
+
+-  نظام رقمي لإدارة النماذج الصحية للمرضى
+-  نظام مصادقة وحماية باستخدام JWT
+-  لوحة تحكم للطبيب والمشرف
+-  دعم تعدد اللغات
+- 🇸🇦 دعم كامل للغة العربية واتجاه RTL
+-  تصدير وطباعة ملفات PDF
+-  البحث والفلترة
+-  واجهة سريعة باستخدام React + Vite
+-  جاهز للعمل مع Docker
+-  جاهز للنشر على Render
+
+---
+
+# اللغات المدعومة
+
+- 🇸🇦 العربية
+- 🇺🇸 الإنجليزية
+- 🇩🇪 الألمانية
+
+---
+
+#  التقنيات المستخدمة
+
+## الواجهة الأمامية (Frontend)
+
+- React
+- Vite
+- TypeScript
+- Axios
+- Custom CSS
+- RTL Layout
+
+## الواجهة الخلفية (Backend)
+
 - Spring Boot
 - Spring Security
+- JWT Authentication
 - REST API
 - Maven
 
-- **Database:** PostgreSQL 
- H2 Database كخيار افتراضي للتشغيل السريع
--
-- **HTTP Client:** Axios
- Render Web Service + Render Static Site + Render PostgreSQL
+## قاعدة البيانات
 
+- PostgreSQL
+- H2 Database للتطوير المحلي
 
+## DevOps والنشر
 
-## DevOps & Deployment
-
+- Docker
+- Render Web Service
 - Render PostgreSQL
-- Render Web Service for Spring Boot backend
-- Render Static Site for React + Vite frontend
-- Environment-variable based production configuration
+- Render Static Site
+
 ---
+
+#  بنية النظام
+
+<div align="center">
+
 ![System Architecture](./assets/arch.png)
 
-## Project Structure
+</div>
 
+---
+
+#  هيكلة المشروع
 
 ```text
-ahmed-al-saadi/
-|- backend/
-|  |- src/main/java/com/example/healthform/
-|  |  |- config/
-|  |  |- controller/
-|  |  |- dto/
-|  |  |- entity/
-|  |  |- repository/
-|  |  |- security/
-|  |  `- service/
-|  |- src/main/resources/application.properties
-|  |- src/test/
-|  |- Dockerfile
-|  `- pom.xml
-|- frontend/
-|  |- src/
-|  |  |- pages/
-|  |  |- services/
-|  |  `- types/
-|  `- package.json
-|- render.yaml
-|- RENDER_DEPLOYMENT.md
-`- README.md
-``
+clinic-health-form-system/
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controller/
+│   │   ├── dto/
+│   │   ├── entity/
+│   │   ├── repository/
+│   │   ├── security/
+│   │   └── service/
+│   │
+│   ├── Dockerfile
+│   ├── pom.xml
+│   └── application.properties
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── components/
+│   │   └── types/
+│   │
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── render.yaml
+├── docker-compose.yml
+├── README.md
+└── RENDER_DEPLOYMENT.md
+```
 
-## المتطلبات
+---
 
-- Java 17 أو أعلى
+#  المتطلبات
+
+- Java 17 أو أحدث
+- Node.js 18 أو أحدث
 - Maven
-- Node.js 18 أو أعلى
+- PostgreSQL
+- Docker (اختياري)
 
-## Render Deployment
+---
 
-See `RENDER_DEPLOYMENT.md` for Render PostgreSQL, backend Web Service, and frontend Static Site configuration.
+#  التثبيت والتشغيل
 
-## بيانات تسجيل الدخول (مشرف / دكتور)
+## تشغيل الواجهة الخلفية
 
-```text
-email: admin@example.com
-password: 12345678
-
-email: doctor@example.com
-password: 12345678
+```bash
+cd backend
+mvn clean install
+mvn spring-boot:run
 ```
 
-> هذه بيانات افتراضية للتجربة فقط. غيّر `ADMIN_USERNAME` و`ADMIN_PASSWORD` و`DOCTOR_USERNAME` و`DOCTOR_PASSWORD` في بيئة الإنتاج.
+## تشغيل الواجهة الأمامية
 
-## سير العمل
-
-```text
-المريض يعبئ النموذج
-        ->
-Frontend يرسل POST /api/forms
-        ->
-Backend يحفظ النموذج في قاعدة البيانات
-        ->
-المشرف يسجل الدخول عبر POST /api/auth/login
-        ->
-Frontend يرسل GET /api/forms
-        ->
-المشرف يستعرض النماذج
-        ->
-المشرف يحدث الحالة/التشخيص/الملاحظات
-        ->
-Frontend يرسل PUT /api/forms/{id}/admin
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-## الصفحات الأساسية
-نموذج المريض: إدخال البيانات الشخصية والصحية والتوقيع التجريبي.
-تسجيل الدخول: دخول المشرف أو الدكتور باستخدام JWT.
-لوحة المشرف/الدكتور: عرض النماذج المرسلة مع البحث والفلترة حسب الحالة.
-تفاصيل السجل: فتح نموذج محدد، تعديل بيانات المريض، وتحديث الحالة.
- تجربة المستخدم: إرشاد المريض أثناء إدخال البيانات
-تم تصميم واجهة "نموذج صحة المريض" لتكون مرشداً رقمياً يضمن دقة البيانات وسهولة الفهم من خلال العناصر التالية:
-عناوين الأقسام الواضحة: تقسيم النموذج إلى كتل منطقية (المعلومات الشخصية، العنوان، التاريخ الطبي)، مما يساعد المريض على التركيز في جانب واحد في كل مرة.
-تلميحات الإدخال (Placeholders & Hints): تحتوي حقول الإدخال على أمثلة توضيحية ليفهم المريض الصيغة المطلوبة قبل البدء بالكتابة.
-رسائل التحقق الفوري (Real-time Validation): يوفر النظام ملاحظات فورية أسفل الحقول تمنع الأخطاء قبل إرسال النموذج وتشرح للمريض سبب رفض البيانات إن وجدت.
-قوائم الاختيار التوجيهية: توفير مربعات اختيار (Checkboxes) سهلة الفهم للأعراض، مما يساعد المريض على تذكر وتحديد حالته بدقة.
-تنبيهات الحقول الإلزامية: تظهر علامة النجمة (*) بجانب الحقول الضرورية لضمان استكمال البيانات الأساسية.
-شرح الأمان والخصوصية: يتضمن النظام شرحاً بسيطاً لاتفاقية معالجة البيانات لضمان السرية التامة- .-
-- تسجيل الدخول:** دخول المشرف أو الدكتور باستخدام JWT.
-- لوحة المشرف/الدكتور:** عرض النماذج المرسلة مع البحث والفلترة حسب الحالة.
-- تفاصيل السجل:** فتح نموذج محدد، تعديل بيانات المريض، تحديث الحالة (جديدة/قيد العمل/تم الإنجاز)، وطباعة PDF.
+---
 
-## API Endpoints
-Method	Endpoint	     Description                  jwt
-POST	/api/auth/login 	عام                تسجيل الدخول       
-POST	/api/forms	            عام         إنشاء نموذج جديد         
-GET	/api/forms	       جلب جميع النماذج        jwt
-GET	/api/forms/{id} 	جلب نموذج محدد       jwt
-PUT	/api/forms/{id}/admin	تحديث الحالة         jwt
-DELETE	/api/forms/{id}	       حذف نموذج            jwt
+#  متغيرات البيئة
 
-|## متغيرات البيئة
-
-### Backend
+## إعدادات Backend
 
 ```env
 PORT=8080
+
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE
+
 DB_USERNAME=USER
 DB_PASSWORD=PASSWORD
-JWT_SECRET=your-very-strong-secret
+
+JWT_SECRET=your-secret-key
 JWT_EXPIRATION_MS=3600000
+
 ADMIN_USERNAME=admin@example.com
-ADMIN_PASSWORD=12345678
+ADMIN_PASSWORD=admin-password
+
 DOCTOR_USERNAME=doctor@example.com
-DOCTOR_PASSWORD=12345678
-FRONTEND_URL=https://your-frontend.onrender.com
+DOCTOR_PASSWORD=doctor-password
+
+FRONTEND_URL=https://your-frontend-url.com
 ```
 
-### Frontend
+## إعدادات Frontend
 
 ```env
-VITE_API_URL=https://your-backend.onrender.com/api
+VITE_API_URL=https://your-backend-url.com/api
 ```
 
-## الاختبارات والبناء
+---
 
-اختبارات الخلفية:
+# آلية عمل النظام
+
+```text
+يقوم المريض بتعبئة النموذج الصحي
+            ↓
+ترسل الواجهة الأمامية الطلب
+            ↓
+يقوم Spring Boot بمعالجة البيانات
+            ↓
+يتم حفظ البيانات داخل PostgreSQL
+            ↓
+يسجل المشرف أو الطبيب الدخول
+            ↓
+تجلب لوحة التحكم النماذج الطبية
+            ↓
+يقوم الطبيب بتحديث الحالة والتشخيص
+```
+
+---
+
+#  نقاط نهاية الـ API
+
+| Method | Endpoint | الوصف | الحماية |
+|---|---|---|---|
+| POST | `/api/auth/login` | تسجيل الدخول | Public |
+| POST | `/api/forms` | إنشاء نموذج صحي | Public |
+| GET | `/api/forms` | جلب جميع النماذج | JWT |
+| GET | `/api/forms/{id}` | جلب تفاصيل نموذج | JWT |
+| PUT | `/api/forms/{id}/admin` | تحديث حالة النموذج | JWT |
+| DELETE | `/api/forms/{id}` | حذف نموذج | JWT |
+
+---
+
+#  الاختبارات
+
+## اختبارات Backend
 
 ```bash
 cd backend
 mvn test
 ```
 
-بناء الواجهة:
+## بناء Frontend
 
 ```bash
 cd frontend
-npm install
 npm run build
 ```
 
-## Deployment
-
-Render deployment notes are in `RENDER_DEPLOYMENT.md`.
-
-#Security Notes# ملاحظات أمان
-
-- استخدم قيمة قوية وطويلة في `JWT_SECRET`.
-- لا تستخدم بيانات المشرف الافتراضية في الإنتاج.
-- فعّل HTTPS في بيئة النشر.
-- قيّد الوصول إلى قاعدة البيانات حسب احتياج الشبكة.
-.......
-Ahmed Al-Saadi
-تم تطوير هذا المشروع لدعم التحول الرقمي في القطاع الصحي وتسهيل إدارة بيانات المرضى بشكل حديث وآمن.
 ---
-Future Improvements | التطوير المستقبلي
-دعم الإشعارات.
-رفع الملفات الطبية.
-دعم تعدد اللغات الكامل.
-نظام صلاحيات متقدم.
-لوحة إحصائيات متقدمة.
 
+# ☁️ النشر
 
+## خدمات الإنتاج
 
-[def]: ./assets/arch.png
+- Frontend → Render Static Site
+- Backend → Render Web Service
+- Database → Render PostgreSQL
+
+مزيد من تفاصيل النشر موجودة داخل:
+
+```text
+RENDER_DEPLOYMENT.md
+```
+
+---
+
+#  ملاحظات الأمان
+
+- استخدم مفتاح JWT قوي وآمن
+- فعّل HTTPS في بيئة الإنتاج
+- لا تستخدم البيانات الافتراضية في الإنتاج
+- قيّد الوصول إلى قاعدة البيانات
+- خزّن البيانات السرية داخل Environment Variables
+
+---
+
+#  التطويرات المستقبلية
+
+- دعم الإشعارات البريدية
+- دعم رسائل SMS
+- رفع الملفات الطبية
+- نظام صلاحيات متقدم
+- لوحة إحصائيات وتحليلات
+- دعم تعدد اللغات الكامل
+
+---
+
+#  تطوير
+
+Ahmed Al-Saadi
+
+مطور Full-Stack مهتم بالتحول الرقمي في القطاع الصحي.
+
+---
