@@ -4,8 +4,7 @@ Patient health form system with a React + Vite frontend, a Spring Boot backend, 
 
 ## Live Demo
 
-https://clinic-health-frontend.onrender.com
-
+https://clinic-health-form-system.onrender.com
 ## Deployment
 
 This repository is configured for Render only:
