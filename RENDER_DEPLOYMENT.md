@@ -6,6 +6,12 @@ This project is configured for:
 - Render Web Service for the Spring Boot backend
 - Render Static Site for the React + Vite frontend
 
+Live demo:
+
+```text
+https://clinic-health-frontend.onrender.com
+```
+
 ## Backend Environment Variables
 
 Set these on the backend Web Service:
@@ -21,7 +27,7 @@ ADMIN_USERNAME=admin@example.com
 ADMIN_PASSWORD=12345678
 DOCTOR_USERNAME=doctor@example.com
 DOCTOR_PASSWORD=12345678
-FRONTEND_URL=https://your-frontend.onrender.com
+FRONTEND_URL=https://clinic-health-frontend.onrender.com
 ```
 
 `DATABASE_URL` can use Render's internal PostgreSQL connection string. The backend converts the Render PostgreSQL URL to the JDBC URL Spring Boot needs at startup.
@@ -31,7 +37,7 @@ FRONTEND_URL=https://your-frontend.onrender.com
 Set this on the frontend Static Site:
 
 ```env
-VITE_API_URL=https://your-backend.onrender.com/api
+VITE_API_URL=https://clinic-health-backend.onrender.com/api
 ```
 
 The frontend API client reads only `VITE_API_URL` for backend requests.
@@ -66,8 +72,8 @@ Use the internal connection string for DATABASE_URL when the database and backen
 The root `render.yaml` defines:
 
 - `ahmed-al-saadi-db`
-- `ahmed-al-saadi-backend`
-- `ahmed-al-saadi`
+- `clinic-health-backend`
+- `clinic-health-frontend`
 
 After creating the services, confirm the generated service URLs. If Render assigns a different subdomain, update only these environment variables:
 

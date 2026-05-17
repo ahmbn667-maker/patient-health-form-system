@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: ahmed-al-saadi-backend
+    name: clinic-health-backend
     runtime: docker
     rootDir: backend
     healthCheckPath: /api
@@ -32,10 +32,10 @@ services:
       - key: DOCTOR_PASSWORD
         value: 12345678
       - key: FRONTEND_URL
-        value: https://ahmed-al-saadi.onrender.com
+        value: https://clinic-health-frontend.onrender.com
 
   - type: web
-    name: ahmed-al-saadi
+    name: clinic-health-frontend
     runtime: static
     rootDir: frontend
     buildCommand: npm ci && npm run build
@@ -46,7 +46,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://ahmed-al-saadi-backend.onrender.com/api
+        value: https://clinic-health-backend.onrender.com/api
 
 databases:
   - name: ahmed-al-saadi-db
